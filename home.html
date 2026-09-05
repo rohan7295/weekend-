@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Weekend Studio — Creative Marketing Agency</title>
+
+<!-- Bootstrap grid & utilities -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/css/bootstrap.min.css" rel="stylesheet">
+<!-- Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,700;1,500;1,600&family=Poppins:wght@400;500;600;700;800;900&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+
+<style>
+  :root{
+    --red: #c31d24;
+    --red-deep: #8a1116;
+    --cream: #f6f1e6;
+    --cream-dim: #efe8d8;
+    --black: #17130f;
+    --ink: #2a241f;
+    --muted: #766e64;
+    --white: #ffffff;
+  }
+
+  *{ box-sizing:border-box; }
+
+  html{ scroll-behavior:smooth; }
+
+  body{
+    background: var(--cream);
+    color: var(--black);
+    font-family:'Inter', sans-serif;
+    font-size: 1rem;
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  .display{ font-family:'Poppins', sans-serif; }
+  .serif{ font-family:'Playfair Display', serif; }
+
+  a{ color:inherit; text-decoration:none; }
+  a:focus-visible, button:focus-visible{
+    outline: 2px solid var(--red);
+    outline-offset: 3px;
+  }
+
+  ::selection{ background: var(--red); color: var(--cream); }
+
+  .container-narrow{ max-width: 1220px; margin-inline:auto; padding-inline: clamp(1.25rem, 4vw, 3rem); }
+
+  /* ---------- NAV ---------- */
+  .nav{
+    position:sticky; top:0; z-index:50;
+    background: rgba(246,241,230,0.92);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid rgba(23,19,15,0.08);
+  }
+  .nav-inner{
+    display:flex; align-items:center; justify-content:space-between;
+    padding: 0.85rem 0;
+  }
+  .nav-brand{ display:flex; align-items:center; gap:0.65rem; }
+  .nav-brand img{ width:42px; height:42px; border-radius:50%; display:block; }
+  .nav-brand-text{ display:flex; flex-direction:column; line-height:1.05; }
+  .nav-brand-text .name{ font-family:'Poppins', sans-serif; font-weight:800; font-size:1.02rem; letter-spacing:0.01em; }
+  .nav-brand-text .sub{ font-family:'Playfair Display', serif; font-style:italic; font-size:0.72rem; color:var(--muted); }
+
+  .nav-links{ display:flex; align-items:center; gap:2.1rem; }
+  .nav-links a{
+    font-size:0.92rem; font-weight:500; color:var(--ink);
+    position:relative; padding-bottom:2px;
+  }
+  .nav-links a::after{
+    content:''; position:absolute; left:0; bottom:0; width:0; height:1px;
+    background: var(--red); transition: width .25s ease;
+  }
+  .nav-links a:hover::after{ width:100%; }
+
+  .btn-pill{
+    display:inline-flex; align-items:center; justify-content:center;
+    padding: 0.65rem 1.5rem;
+    border-radius: 999px;
+    font-weight:600; font-size:0.9rem;
+    transition: transform .2s ease, background .2s ease, color .2s ease;
+    white-space:nowrap;
+    border: 1.5px solid transparent;
+  }
+  .btn-red{ background: var(--red); color: var(--white); }
+  .btn-red:hover{ background: var(--red-deep); transform: translateY(-1px); color:var(--white); }
+  .btn-outline-dark{ border-color: rgba(23,19,15,0.35); color: var(--black); }
+  .btn-outline-dark:hover{ border-color: var(--black); background: var(--black); color: var(--cream); }
+  .btn-cream{ background: var(--cream); color: var(--red); }
+  .btn-cream:hover{ background: var(--white); color: var(--red-deep); transform: translateY(-1px); }
+
+  .nav-cta{ display:none; }
+  @media(min-width:576px){ .nav-cta{ display:inline-flex; } }
+  @media(max-width:860px){ .nav-links{ display:none; } }
+
+  /* ---------- HERO ---------- */
+  .hero{
+    position:relative;
+    overflow:hidden;
+    padding: clamp(3.5rem, 9vw, 6.5rem) 0 clamp(3rem,7vw,5rem);
+  }
+  .hero-grid{
+    display:grid;
+    grid-template-columns: 1.15fr 0.85fr;
+    gap: 2rem;
+    align-items:center;
+  }
+  @media(max-width:900px){ .hero-grid{ grid-template-columns:1fr; } }
+
+  .kicker{
+    font-family:'Playfair Display', serif; font-style:italic; font-weight:500;
+    color: var(--red); font-size:1.05rem; margin-bottom:1rem;
+    display:flex; align-items:center; gap:0.6rem;
+  }
+  .kicker .dot{ width:7px; height:7px; border-radius:50%; background:var(--red); display:inline-block; }
+
+  .hero h1{
+    font-family:'Poppins', sans-serif;
+    font-weight:800;
+    font-size: clamp(2.4rem, 5.4vw, 4.1rem);
+    line-height:1.08;
+    letter-spacing:-0.01em;
+    color: var(--black);
+    margin-bottom:1.4rem;
+  }
+  .hero p.lede{
+    font-size: clamp(1.02rem, 1.4vw, 1.16rem);
+    color: var(--ink);
+    max-width: 46ch;
+    margin-bottom: 2.1rem;
+  }
+  .hero-actions{ display:flex; gap:1rem; flex-wrap:wrap; }
+
+  .hero-visual{
+    position:relative;
+    aspect-ratio: 1/1;
+    max-width: 480px;
+    margin-inline:auto;
+  }
+  .hero-visual svg{ width:100%; height:100%; display:block; }
+
+  /* ---------- MARQUEE STRIP ---------- */
+  .strip{
+    background: var(--black);
+    color: var(--cream);
+    padding: 0.9rem 0;
+    overflow:hidden;
+    white-space:nowrap;
+  }
+  .strip-track{
+    display:inline-flex;
+    animation: scroll 28s linear infinite;
+  }
+  .strip-track span{
+    font-family:'Poppins', sans-serif; font-weight:600; font-size:0.95rem;
+    letter-spacing:0.02em;
+    padding: 0 2.2rem;
+    display:inline-flex; align-items:center; gap:0.8rem;
+  }
+  .strip-track span::after{ content:'—'; color: var(--red); }
+  @keyframes scroll{ 0%{ transform: translateX(0); } 100%{ transform: translateX(-50%); } }
+  @media (prefers-reduced-motion: reduce){ .strip-track{ animation:none; } }
+
+  /* ---------- SECTION HEADS ---------- */
+  .section{ padding: clamp(3.5rem, 8vw, 6rem) 0; }
+  .section-head{ max-width: 640px; margin-bottom: clamp(2.2rem, 5vw, 3.2rem); }
+  .section-head .kicker{ margin-bottom:0.6rem; }
+  .section-head h2{
+    font-family:'Poppins', sans-serif; font-weight:800;
+    font-size: clamp(1.9rem, 3.6vw, 2.7rem);
+    letter-spacing:-0.01em;
+    color: var(--black);
+  }
+  .section-head p{ color: var(--muted); margin-top:0.8rem; font-size:1.02rem; }
+
+  /* ---------- SERVICES ---------- */
+  .service-row{
+    display:grid;
+    grid-template-columns: 40px 1.1fr 1.4fr;
+    gap: 1.6rem;
+    align-items:start;
+    padding: 1.8rem 0;
+    border-top: 1px solid rgba(23,19,15,0.14);
+    transition: background .2s ease;
+  }
+  .service-row:last-child{ border-bottom: 1px solid rgba(23,19,15,0.14); }
+  @media(max-width:760px){
+    .service-row{ grid-template-columns: 28px 1fr; }
+    .service-row .service-desc{ grid-column: 2; }
+  }
+  .service-dot{
+    width:12px; height:12px; border-radius:50%;
+    background: var(--red);
+    margin-top:0.55rem;
+    transition: transform .25s ease;
+  }
+  .service-row:hover .service-dot{ transform: scale(1.6); }
+  .service-name{
+    font-family:'Poppins', sans-serif; font-weight:700;
+    font-size: clamp(1.35rem, 2.4vw, 1.9rem);
+    color: var(--black);
+    line-height:1.15;
+  }
+  .service-desc{ color: var(--ink); font-size:1rem; max-width: 46ch; }
+  .service-desc .tag{ color: var(--muted); font-size:0.85rem; display:block; margin-top:0.5rem; }
+
+  /* ---------- CAPABILITIES (dark) ---------- */
+  .capabilities{
+    background: var(--black);
+    color: var(--cream);
+    position:relative;
+    overflow:hidden;
+  }
+  .capabilities::before{
+    content:'';
+    position:absolute; right:-120px; top:-120px;
+    width:420px; height:420px; border-radius:50%;
+    border: 1.5px solid rgba(246,241,230,0.12);
+  }
+  .capabilities::after{
+    content:'';
+    position:absolute; right:-40px; top:-40px;
+    width:260px; height:260px; border-radius:50%;
+    border: 1.5px solid rgba(246,241,230,0.12);
+  }
+  .cap-grid{
+    display:grid; grid-template-columns: 1fr 1fr; gap: 2.5rem;
+    position:relative; z-index:1;
+  }
+  @media(max-width:860px){ .cap-grid{ grid-template-columns:1fr; } }
+  .cap-list{ list-style:none; padding:0; margin:0; }
+  .cap-list li{
+    font-family:'Poppins', sans-serif; font-weight:700;
+    font-size: clamp(1.5rem, 3vw, 2.1rem);
+    padding: 0.9rem 0;
+    border-bottom: 1px solid rgba(246,241,230,0.15);
+    color: var(--cream);
+  }
+  .cap-list li:first-child{ padding-top:0; }
+  .cap-note{
+    font-family:'Playfair Display', serif; font-style:italic; font-size:1.3rem;
+    color: rgba(246,241,230,0.75); max-width:38ch; align-self:end;
+  }
+
+  /* ---------- CTA ---------- */
+  .cta{
+    background: var(--red);
+    color: var(--white);
+    text-align:center;
+    position:relative;
+    overflow:hidden;
+  }
+  .cta::before{
+    content:''; position:absolute; left:50%; top:0; transform:translate(-50%,-55%);
+    width:520px; height:520px; border-radius:50%; background: var(--red-deep); opacity:0.55;
+  }
+  .cta-inner{ position:relative; z-index:1; max-width:640px; margin-inline:auto; }
+  .cta h2{
+    font-family:'Poppins', sans-serif; font-weight:800;
+    font-size: clamp(2rem, 4.4vw, 3rem); margin-bottom:1rem;
+  }
+  .cta p{ color: rgba(255,255,255,0.85); margin-bottom:2rem; font-size:1.05rem; }
+  .cta .fine{ margin-top:1.1rem; font-size:0.85rem; color: rgba(255,255,255,0.7); }
+
+  /* ---------- FOOTER ---------- */
+  .footer{ padding: 2.8rem 0 2.2rem; }
+  .footer-inner{
+    display:flex; flex-wrap:wrap; gap:1.5rem;
+    align-items:center; justify-content:space-between;
+    border-top: 1px solid rgba(23,19,15,0.14);
+    padding-top: 2rem;
+  }
+  .footer-brand{ display:flex; align-items:center; gap:0.7rem; }
+  .footer-brand img{ width:34px; height:34px; border-radius:50%; }
+  .footer-brand .name{ font-family:'Poppins', sans-serif; font-weight:700; font-size:0.95rem; }
+  .footer-brand .tag{ font-family:'Playfair Display', serif; font-style:italic; font-size:0.75rem; color:var(--muted); }
+  .footer-links{ display:flex; gap:1.6rem; }
+  .footer-links a{ font-size:0.88rem; color: var(--ink); }
+  .footer-links a:hover{ color: var(--red); }
+  .footer-copy{ font-size:0.8rem; color: var(--muted); width:100%; text-align:center; margin-top:1.6rem; }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav">
+  <div class="container-narrow nav-inner">
+    <a href="#top" class="nav-brand">
+      <img src="photo/logo.PNG" alt="Weekend Studio logo">
+      <span class="nav-brand-text">
+        <span class="name">WEEKEND STUDIO</span>
+        <span class="sub">Weekend Media</span>
+      </span>
+    </a>
+    <div class="nav-links">
+      <a href="#services">Services</a>
+      <a href="#work">Capabilities</a>
+      <a href="#contact">Contact</a>
+    </div>
+    <a class="nav-cta btn-pill btn-red" href="https://docs.google.com/forms/d/e/1FAIpQLSfQRC00qQ3H8_26rkxTgRC6KCDwnKPlkyNDBtrs_NJdtEJoaA/viewform?usp=header" target="_blank" rel="noopener">Start a project</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<header class="hero" id="top">
+  <div class="container-narrow hero-grid">
+    <div>
+      <p class="kicker"><span class="dot"></span>Weekend Studio — Creative Marketing</p>
+      <h1>Turning ideas into visual experiences.</h1>
+      <p class="lede">We're a creative marketing studio that shoots, shapes and scales brand stories — from branding shoots and social content to advertising campaigns, photography and video production.</p>
+      <div class="hero-actions">
+        <a class="btn-pill btn-red" href="https://docs.google.com/forms/d/e/1FAIpQLSfQRC00qQ3H8_26rkxTgRC6KCDwnKPlkyNDBtrs_NJdtEJoaA/viewform?usp=header" target="_blank" rel="noopener">Start a project</a>
+        <a class="btn-pill btn-outline-dark" href="#services">See what we do</a>
+      </div>
+    </div>
+
+    <div class="hero-visual" aria-hidden="true">
+      <svg viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="200" cy="200" r="190" fill="var(--red)"/>
+        <g fill="none" stroke="var(--cream)" stroke-width="1.4" opacity="0.55">
+          <circle cx="200" cy="200" r="150"/>
+          <circle cx="200" cy="200" r="108"/>
+        </g>
+        <g fill="var(--cream)" opacity="0.95">
+          <polygon points="200,66 224,124 176,124" transform="rotate(0 200 200)"/>
+          <polygon points="200,66 224,124 176,124" transform="rotate(60 200 200)"/>
+          <polygon points="200,66 224,124 176,124" transform="rotate(120 200 200)"/>
+          <polygon points="200,66 224,124 176,124" transform="rotate(180 200 200)"/>
+          <polygon points="200,66 224,124 176,124" transform="rotate(240 200 200)"/>
+          <polygon points="200,66 224,124 176,124" transform="rotate(300 200 200)"/>
+        </g>
+        <circle cx="200" cy="200" r="46" fill="var(--cream)"/>
+        <circle cx="200" cy="200" r="46" fill="none" stroke="var(--red)" stroke-width="2"/>
+      </svg>
+    </div>
+  </div>
+</header>
+
+<!-- MARQUEE -->
+<div class="strip" aria-hidden="true">
+  <div class="strip-track">
+    <span>Branding Shoots</span><span>Social Media</span><span>Advertising</span><span>Photography</span><span>Videography</span>
+    <span>Branding Shoots</span><span>Social Media</span><span>Advertising</span><span>Photography</span><span>Videography</span>
+  </div>
+</div>
+
+<!-- SERVICES -->
+<section class="section" id="services">
+  <div class="container-narrow">
+    <div class="section-head">
+      <p class="kicker"><span class="dot"></span>What we do</p>
+      <h2>Four disciplines, one studio.</h2>
+      <p>Every project moves through the same team, so your brand stays consistent from the first shoot to the last post.</p>
+    </div>
+
+    <div class="services-list">
+      <div class="service-row">
+        <span class="service-dot"></span>
+        <span class="service-name">Promotion &amp; Branding Shoots</span>
+        <span class="service-desc">Creative direction and production for campaign and brand shoots — concept, styling and delivery handled end to end.<span class="tag">Studio &amp; on-location</span></span>
+      </div>
+      <div class="service-row">
+        <span class="service-dot"></span>
+        <span class="service-name">Social Media Management</span>
+        <span class="service-desc">Content planning, posting and community management that keep your channels active and on-brand every day.<span class="tag">Strategy &amp; day-to-day</span></span>
+      </div>
+      <div class="service-row">
+        <span class="service-dot"></span>
+        <span class="service-name">Advertising</span>
+        <span class="service-desc">Campaign concepts and ad creative built for digital, print and out-of-home, tuned to how each platform is actually used.<span class="tag">Concept &amp; creative</span></span>
+      </div>
+      <div class="service-row">
+        <span class="service-dot"></span>
+        <span class="service-name">Photography &amp; Videography</span>
+        <span class="service-desc">Full production for product, portrait and campaign work — shot, edited and delivered ready to publish.<span class="tag">Production &amp; post</span></span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CAPABILITIES -->
+<section class="section capabilities" id="work">
+  <div class="container-narrow">
+    <div class="section-head">
+      <p class="kicker" style="color:var(--cream);"><span class="dot" style="background:var(--cream);"></span>What we create</p>
+      <h2 style="color:var(--cream);">Content that's built to be used.</h2>
+    </div>
+
+    <div class="cap-grid">
+      <ul class="cap-list">
+        <li>Campaign shoots</li>
+        <li>Reels &amp; short-form video</li>
+        <li>Ad films</li>
+        <li>Studio &amp; product sessions</li>
+      </ul>
+      <p class="cap-note">"Every frame is shot with the next platform already in mind — feed, story, or screen."</p>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta" id="contact">
+  <div class="container-narrow">
+    <div class="cta-inner">
+      <h2>Have a project in mind?</h2>
+      <p>Tell us a little about your brand and what you're planning — we'll get back to you within one working day.</p>
+      <a class="btn-pill btn-cream" href="https://docs.google.com/forms/d/e/1FAIpQLSfQRC00qQ3H8_26rkxTgRC6KCDwnKPlkyNDBtrs_NJdtEJoaA/viewform?usp=header" target="_blank" rel="noopener" style="padding:0.85rem 2.2rem; font-size:1rem;">Start a project</a>
+      <p class="fine">Opens a short form — takes about two minutes.</p>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="container-narrow">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <img src="weekend-logo.png" alt="Weekend Studio logo">
+        <span>
+          <span class="name" style="display:block;">WEEKEND STUDIO</span>
+          <span class="tag">Turning ideas into visual experiences</span>
+        </span>
+      </div>
+      <div class="footer-links">
+        <a href="#services">Services</a>
+        <a href="#work">Capabilities</a>
+        <a href="#contact">Contact</a>
+      </div>
+      <p class="footer-copy">© 2026 Weekend Studio · Weekend Media. All rights reserved.</p>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
